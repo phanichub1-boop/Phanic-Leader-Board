@@ -1,0 +1,219 @@
+:root {
+  --bg: #080102;
+  --glass: rgba(20, 4, 6, 0.9);
+  --glass-border: rgba(139, 0, 0, 0.3);
+  --text: #F7ECEC;
+  --crimson: #C0272D;
+  --muted: #8A6060;
+  --gold: #FFD700;
+  --silver: #C0C0C0;
+  --bronze: #CD7F32;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  padding: 15px;
+  background-image: radial-gradient(circle at top, rgba(139, 0, 0, 0.2), transparent);
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 40px 0 20px;
+}
+
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 10vw, 5rem);
+  letter-spacing: 2px;
+}
+
+#live-date {
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  margin-top: 5px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+#search-input {
+  width: 100%;
+  padding: 16px 20px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  color: var(--text);
+  outline: none;
+  font-size: 16px;
+}
+
+#download-btn {
+  width: 100%;
+  background: var(--crimson);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 16px;
+  cursor: pointer;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+}
+
+/* Podium Layout */
+.podium {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.podium-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  flex: 1;
+  transition: transform 0.3s;
+}
+
+.rank-1 {
+  border-color: var(--gold);
+  order: 1;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+  cursor: pointer;
+}
+
+.rank-2 {
+  border-color: var(--silver);
+  order: 2;
+}
+
+.rank-3 {
+  border-color: var(--bronze);
+  order: 3;
+}
+
+.podium-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.podium-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Table Style */
+.main-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.table-header {
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+th {
+  text-align: left;
+  padding: 15px 20px;
+  color: var(--muted);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(139, 0, 0, 0.1);
+  font-size: 0.95rem;
+}
+
+.score-badge {
+  background: var(--crimson);
+  padding: 5px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: white;
+  display: inline-block;
+}
+
+/* Desktop Polish */
+@media (min-width: 768px) {
+  .controls {
+    flex-direction: row;
+  }
+
+  #download-btn {
+    width: auto;
+    padding: 0 40px;
+  }
+
+  .podium {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .rank-1 {
+    order: 2;
+    min-height: 240px;
+    scale: 1.05;
+  }
+
+  .rank-2 {
+    order: 1;
+    min-height: 200px;
+  }
+
+  .rank-3 {
+    order: 3;
+    min-height: 180px;
+  }
+}
+
+.no-print {
+  display: none !important;
+}

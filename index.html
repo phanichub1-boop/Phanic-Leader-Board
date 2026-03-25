@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Phanic Leaderboard | Official Rankings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="image/Logoa.png">
+</head>
+<body>
+
+  <header>
+    <h1>Phanic Rankings</h1>
+    <p id="live-date">Syncing date...</p>
+  </header>
+
+  <main class="container">
+    <div class="controls">
+      <input type="text" id="search-input" placeholder="Search student name...">
+      <button id="download-btn" onclick="downloadPDF()">Export PDF</button>
+    </div>
+
+    <div id="podium-area" class="podium"></div>
+
+    <div class="main-card">
+      <div class="table-header">
+        <span>OFFICIAL PERFORMANCE INDEX</span>
+        <div id="sync-status">CONNECTING...</div>
+      </div>
+      <div class="table-wrap">
+        <div id="table-container">
+            <div style="padding: 40px; text-align: center; color: var(--muted);">Synchronizing with Google Sheets...</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
