@@ -1,46 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Phanic Leaderboard | Official Rankings</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <title>Phanic Computer Hub | Student Rankings</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="image/Logoa.png">
+
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="image/Logoa.png"/>
+<base target="_blank">
 </head>
 <body>
 
-  <header>
-    <h1>Phanic Rankings</h1>
-    <p id="live-date">Syncing date...</p>
-  </header>
+  <!-- ═══════════════════════════════════════════════════
+       DEMO PAGE — Shows how leaderboard sits on main site
+       In your real site, remove everything inside <body>
+       except #leaderboard-modal and #lb-trigger-btn,
+       then paste them into your existing index.html
+  ══════════════════════════════════════════════════════ -->
 
-  <main class="container">
-    <div class="controls">
-      <input type="text" id="search-input" placeholder="Search student name...">
-      <button id="download-btn" onclick="downloadPDF()">Export PDF</button>
+  <!-- Trigger button (add this wherever you need it on the main site) -->
+  <div class="demo-page">
+    <div class="demo-hero">
+      <img src="image/Logoa.png" alt="Phanic" class="demo-logo" onerror="this.style.display='none'"/>
+      <h2>Phanic Computer Hub</h2>
+      <p>See how our students are performing this cohort</p>
+      <button id="lb-trigger-btn" class="lb-open-btn" onclick="openLeaderboard()">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M18 20V10M12 20V4M6 20v-6"/>
+        </svg>
+        View Student Rankings
+      </button>
     </div>
+  </div>
 
-    <div id="podium-area" class="podium"></div>
+  <!-- ═══════════════════════════════════════════════════
+       LEADERBOARD MODAL — Copy this entire block into
+       your main website's index.html
+  ══════════════════════════════════════════════════════ -->
+  <div id="leaderboard-modal" class="lb-modal" role="dialog" aria-modal="true" aria-label="Student Leaderboard">
 
-    <div class="main-card">
-      <div class="table-header">
-        <span>OFFICIAL PERFORMANCE INDEX</span>
-        <div id="sync-status">CONNECTING...</div>
-      </div>
-      <div class="table-wrap">
-        <div id="table-container">
-            <div style="padding: 40px; text-align: center; color: var(--muted);">Synchronizing with Google Sheets...</div>
+    <!-- Backdrop -->
+    <div class="lb-backdrop" onclick="closeLeaderboard()"></div>
+
+    <!-- Modal Panel -->
+    <div class="lb-panel">
+
+      <!-- Modal Header -->
+      <div class="lb-header">
+        <div class="lb-header-left">
+          <div class="lb-logo-mark">
+            <img src="image/Logoa.png" alt="Phanic" onerror="this.style.display='none'"/>
+            <svg class="lb-logo-fallback" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div class="lb-header-text">
+            <h1 class="lb-title">STUDENT RANKINGS</h1>
+            <p class="lb-subtitle" id="live-date">Synchronizing...</p>
+          </div>
+        </div>
+        <div class="lb-header-right">
+          <div class="lb-sync-pill" id="sync-status">
+            <span class="lb-sync-dot"></span>
+            <span>CONNECTING</span>
+          </div>
+          <button class="lb-close-btn" onclick="closeLeaderboard()" aria-label="Close leaderboard">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
         </div>
       </div>
-    </div>
-  </main>
 
+      <!-- Modal Body -->
+      <div class="lb-body">
+
+        <!-- Podium Section -->
+        <section class="lb-podium-section" id="podium-area">
+          <!-- Populated by JS -->
+        </section>
+
+        <!-- Class Statistics Section -->
+        <section class="lb-stats-section" id="stats-container">
+          <div class="lb-stats-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            <span>Class Overview</span>
+          </div>
+          <div class="lb-stats-grid">
+            <div class="lb-stat-item">
+              <span class="lb-stat-icon">👥</span>
+              <span class="lb-stat-value" id="stat-total">—</span>
+              <span class="lb-stat-label">Total Students</span>
+            </div>
+            <div class="lb-stat-item">
+              <span class="lb-stat-icon">✅</span>
+              <span class="lb-stat-value" id="stat-pass">—</span>
+              <span class="lb-stat-label">Pass Rate</span>
+            </div>
+            <div class="lb-stat-item">
+              <span class="lb-stat-icon">📊</span>
+              <span class="lb-stat-value" id="stat-avg">—</span>
+              <span class="lb-stat-label">Class Average</span>
+            </div>
+            <div class="lb-stat-item">
+              <span class="lb-stat-icon">🏆</span>
+              <span class="lb-stat-value" id="stat-top">—</span>
+              <span class="lb-stat-label">Highest Score</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Controls Bar -->
+        <div class="lb-controls">
+          <div class="lb-search-wrap">
+            <svg class="lb-search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="search-input" class="lb-search-input" placeholder="Search student name..."/>
+            <button class="lb-search-clear" id="search-clear" onclick="clearSearch()" style="display:none" aria-label="Clear search">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+          <button class="lb-export-btn" onclick="downloadPDF()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Export PDF
+          </button>
+        </div>
+
+        <!-- Table Section -->
+        <div class="lb-table-wrap">
+          <div class="lb-table-inner" id="table-container">
+            <div class="lb-loading">
+              <div class="lb-spinner"></div>
+              <p>Synchronizing with Google Sheets...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="lb-footer">
+          <span>Phanic Computer Hub &bull; Official Performance Index</span>
+          <span id="lb-last-updated"></span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Confetti canvas (appended by JS, keep this here) -->
   <script src="script.js"></script>
 </body>
 </html>
