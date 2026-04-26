@@ -7,7 +7,7 @@
    4. Podium section untouched
    ═══════════════════════════════════════════════════════════════ */
 
-const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSyqab0en46TeJxrvZAuhRz1hevjBCer7AvahYsk-7eD6geubmOfWQqBy9MP3PKw/pub?gid=1635849007&single=true&output=csv';
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTSyqab0en46TeJxrvZAuhRz1hevjBCer7AvahYsk-7eD6geubmOfWQqBy9MP3PKw/pub?gid=645715969&single=true&output=csv';
 
 /* ─────────────────────────────────────────────────────────────
    CHAMPION DURATION TRACKING
